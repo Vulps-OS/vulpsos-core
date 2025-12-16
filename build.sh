@@ -2,8 +2,8 @@
 
 echo "Cleaning previous build..."
 rm -rf initramfs
-rm -rf initramfs.cpio.gz
-rm -rf init
+rm -f initramfs.cpio.gz
+rm -f init shell
 
 echo "Compiling init..."
 gcc init.c -static -o init
@@ -13,8 +13,7 @@ cd shell
 gcc -c registry.c -o registry.o
 gcc -c executor.c -o executor.o
 gcc -c main.c -o main.o
-gcc registry.o executor.o main.o -static -o shell
-mv shell ../
+gcc registry.o executor.o main.o -static -o shell_binary
 cd ..
 
 echo "Setting up initramfs structure..."
@@ -26,7 +25,7 @@ mkdir -p initramfs/usr/local/bin
 
 echo "Copying binaries to initramfs..."
 cp init initramfs/
-cp shell initramfs/bin/
+cp shell/shell_binary initramfs/bin/shell  # Copy from shell/ dir to initramfs/bin/ as 'shell'
 
 echo "Creating empty registry..."
 touch initramfs/etc/vulpos/commands.registry

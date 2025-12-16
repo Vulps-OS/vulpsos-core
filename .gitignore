@@ -2,6 +2,7 @@
 init
 *.o
 *.a
+shell/shell*
 
 #build artifacts
 initramfs.cpio.gz
