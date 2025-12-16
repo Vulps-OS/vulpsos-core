@@ -1,16 +1,35 @@
 #!/bin/bash
 
-echo "Compiling init and shell..."
+echo "Cleaning previous build..."
+rm -rf initramfs
+rm -rf initramfs.cpio.gz
+rm -rf init
+
+echo "Compiling init..."
 gcc init.c -static -o init
-gcc shell.c -static -o shell
+
+echo "Compiling shell..."
+cd shell
+gcc -c registry.c -o registry.o
+gcc -c executor.c -o executor.o
+gcc -c main.c -o main.o
+gcc registry.o executor.o main.o -static -o shell
+mv shell ../
+cd ..
 
 echo "Setting up initramfs structure..."
 mkdir -p initramfs/bin
 mkdir -p initramfs/dev
+mkdir -p initramfs/etc/vulpos
+mkdir -p initramfs/var/lib/vulpos/manifests
+mkdir -p initramfs/usr/local/bin
 
 echo "Copying binaries to initramfs..."
 cp init initramfs/
 cp shell initramfs/bin/
+
+echo "Creating empty registry..."
+touch initramfs/etc/vulpos/commands.registry
 
 echo "Creating device files..."
 cd initramfs

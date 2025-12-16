@@ -1,6 +1,5 @@
 #compiled binaries
 init
-shell
 *.o
 *.a
 
