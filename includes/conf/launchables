@@ -1,0 +1,7 @@
+# VulpOS Launchables
+# Services and programs to launch at boot
+# One per line, full path required
+# Lines starting with # are comments
+
+# VulpsOS Core Services
+/corepack/stdoutd

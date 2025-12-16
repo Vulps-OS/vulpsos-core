@@ -2,8 +2,8 @@
 init
 *.o
 *.a
-corepack/shell/shell*
-corepack/package/package*
+includes/corepack/shell/shell*
+includes/corepack/package/package*
 
 #build artifacts
 initramfs.cpio.gz
