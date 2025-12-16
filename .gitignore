@@ -1,0 +1,16 @@
+#compiled binaries
+init
+shell
+*.o
+*.a
+
+#build artifacts
+initramfs.cpio.gz
+initramfs/
+
+linux-*/
+*.tar.xz
+*.tar.gz
+
+#debian packages
+*.deb
