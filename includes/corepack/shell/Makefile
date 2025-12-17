@@ -3,7 +3,7 @@ SOURCES := registry.c executor.c main.c
 BUILDDIR ?= $(shell realpath ../../../initramfs)
 DESTDIR := $(BUILDDIR)/corepack/shell
 OBJECTS := $(addprefix $(DESTDIR)/,$(SOURCES:.c=.o))
-TARGET := $(DESTDIR)/shell_binary
+TARGET := $(DESTDIR)/shell
 
 .PHONY: all clean
 

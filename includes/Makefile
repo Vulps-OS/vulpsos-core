@@ -21,14 +21,11 @@ build-auto:
 	@$(eval DESTDIR := $(BUILDDIR)/$(CLEAN_DIR))
 	@mkdir -p $(DESTDIR)
 	@$(eval SOURCES := $(wildcard $(DIR)/*.c))
-	@$(eval OBJECTS := $(patsubst $(DIR)/%.c,$(DESTDIR)/%.o,$(SOURCES)))
-	@$(eval TARGET := $(DESTDIR)/$(notdir $(DIR)))
 	@for src in $(SOURCES); do \
-		gcc -c $$src -o $(DESTDIR)/$$(basename $$src .c).o; \
+		basename=$$(basename $$src .c); \
+		echo "  -> Building $$basename from $$src"; \
+		gcc $$src -static -o $(DESTDIR)/$$basename; \
 	done
-	gcc $(OBJECTS) -static -o $(TARGET)
-	rm -f $(OBJECTS)
-	@echo "  -> Built $(TARGET)"
 
 clean:
 	@echo "Cleaning build artifacts..."

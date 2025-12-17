@@ -4,4 +4,4 @@
 # Lines starting with # are comments
 
 # VulpsOS Core Services
-/corepack/stdoutd
+/_system/stdoutd

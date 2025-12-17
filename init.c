@@ -25,7 +25,7 @@ void launch_services() {
             // Child - exec the service
             execl(line, line, NULL);
             printf("Init: Failed to launch %s\n", line);
-            return;
+            _exit(1);
         }
         // Parent continues to next service
     }
@@ -39,7 +39,9 @@ int main() {
     launch_services();
     
     printf("Init: Launching shell\n");
-    execve("/corepack/shell", NULL, NULL);
+    char *argv[] = {"/corepack/shell/shell", NULL};
+    char *envp[] = {NULL};
+    execve("/corepack/shell/shell", argv, envp);
     printf("Init: Failed to start shell!\n");
     while(1) sleep(1);
     return 0;
