@@ -1,6 +1,12 @@
+BUILDDIR ?= $(shell realpath ../../../initramfs)
+DESTDIR := $(BUILDDIR)/corepack/libvos
+
 all:
-	gcc -c stdout.c -o stdout.o
-	ar rcs libvos.a stdout.o
+	@mkdir -p $(DESTDIR)
+	gcc -c stdout.c -o $(DESTDIR)/stdout.o
+	ar rcs $(DESTDIR)/libvos.a $(DESTDIR)/stdout.o
+	rm -f $(DESTDIR)/stdout.o
+	@echo "  -> Built $(DESTDIR)/libvos.a"
 
 clean:
-	rm -f *.o libvos.a
+	rm -f $(DESTDIR)/*.o $(DESTDIR)/libvos.a

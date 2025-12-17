@@ -5,35 +5,22 @@ rm -rf initramfs
 rm -f initramfs.cpio.gz
 rm -f init shell
 
+echo "Setting up initramfs structure..."
+mkdir -p initramfs/dev
+
 echo "Compiling init..."
 gcc init.c -static -o init
-
-echo "Compiling shell..."
-cd includes/corepack/shell
-gcc -c registry.c -o registry.o
-gcc -c executor.c -o executor.o
-gcc -c main.c -o main.o
-gcc registry.o executor.o main.o -static -o shell_binary
-cd ../../..
-
-echo "Setting up initramfs structure..."
-mkdir -p initramfs/bin
-mkdir -p initramfs/dev
-mkdir -p initramfs/etc/vulpos
-mkdir -p initramfs/var/lib/vulpos/manifests
-mkdir -p initramfs/usr/local/bin
-mkdir -p initramfs/corepack
-mkdir -p initramfs/conf
-
-echo "Copying binaries to initramfs..."
 cp init initramfs/
-cp includes/corepack/shell/shell_binary initramfs/corepack/shell  # Copy from includes/corepack/shell/ dir to initramfs/corepack/ as 'shell'
 
-echo "Copying configuration files..."
-cp includes/conf/launchables initramfs/conf/launchables
+echo "Building all components from includes/..."
+cd includes
+make
+cd ..
 
-echo "Creating empty registry..."
-touch initramfs/etc/vulpos/commands.registry
+echo "Copying non-source files from includes/..."
+cd includes
+find . -type f ! -name '*.c' ! -name '*.h' ! -name '*.o' ! -name 'Makefile' -exec sh -c 'mkdir -p "../initramfs/$(dirname "{}")" && cp "{}" "../initramfs/{}"' \;
+cd ..
 
 echo "Creating device files..."
 cd initramfs
